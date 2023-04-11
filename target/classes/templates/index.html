@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>index</title>
+<style>
+body {
+position: absolute;
+
+	  top: 15%;
+
+	  left: 30%;
+
+	  margin: -50px 0 0 -50px;
+
+}
+
+.a{
+	border: 1px solid;
+}
+</style>
+</head>
+<body>
+	<p th:text="${msg}" >나오시오</p>
+	<table>
+		<thead>
+			<tr>
+				<td>아이디</td>
+				<td>제목</td>
+				<td>가격</td>
+			</tr>
+		</thead>
+		<tbody  class="a">
+			<tr th:each="m: ${movieList}"  class="a">
+				<td th:text="${m.movieId}"  class="a">1</td>
+				<td th:text="${m.title}" class="a">스파이더맨</td>
+				<td th:text="${m.price}" class="a">7500원</td>
+			</tr>
+	
+		</tbody>	
+	</table>
+
+
+</body>
+</html>
