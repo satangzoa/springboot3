@@ -3,63 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>index</title>
+<title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-<style>
- body { 
-
- position: absolute; 
-
- 	  top: 15%; 
-
- 	  left: 35%; 
-
- 	  margin: -50px 0 0 -50px; 
-
- } 
-
- .a{ 
-
- 	border: 1px solid; 
- } 
-</style>
 </head>
 <body>
-	<p th:text="${msg}" ></p>
+
+	<h1>고객 정보 관리 목록</h1>
 	<table class="table table-hover">
 		<thead>
-			<tr class="a">
-				<td class="a">아이디</td>
-				<td class="a">제목</td>
-				<td class="a">가격</td>
+			<tr>
+				<td>아이디</td>
+				<td>이름</td>
+				<td>생일</td>
+				<td>직업</td>
+				<td>메일</td>
+				<td>전화번호</td>
+				<td>우편주소</td>
+				<td>주소</td>
 			</tr>
 		</thead>
-		<tbody  class="a">
-			<tr th:each="m: ${movieList}"  class="a">
-				<td th:text="${m.movieId}"  class="a">1</td>
-				<td th:text="${m.title}" class="a">스파이더맨</td>
-				<td th:text="${m.price}" class="a">7500원</td>
+		<tbody>
+		   <tr th:each="c: ${customerList}" >
+				<td th:text="${c.customerCode}"></td>
+				<td th:text="${c.customerName}"></td>
+				<td th:text="${c.customerBirth}"></td>
+				<td th:text="${c.customerJob}"></td>
+				<td th:text="${c.customerMail}"></td>
+				<td th:text="${c.customerTel}"></td>
+				<td th:text="${c.customerPost}"></td>
+				<td th:text="${c.customerAdd}"></td>
 			</tr>
-	
-		</tbody>	
+		</tbody>
 	</table>
-	
-	
-  <nav aria-label="Page navigation example">
+
+	<nav aria-label="Page navigation example">
   	<ul class="pagination">
   	<li th:each="i : ${#numbers.sequence(beginIndex, endIndex)}"
   		class="page-item"
 		th:classappend="${currentIndex == i} ? 'active' : ''">
-  		<a class="page-link" th:href="'/?page=' + ${i}" th:text="${i}"> 1</a>
+  		<a class="page-link" th:href="'/customers?page=' + ${i}" th:text="${i}"> 1</a>
   	</li>
   	</ul>
   </nav>
-	
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html>
-
 
 
 
