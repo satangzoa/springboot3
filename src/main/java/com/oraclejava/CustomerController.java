@@ -12,7 +12,7 @@ import org.springframework.web.servlet.*;
 @Controller
 public class CustomerController {
 
-	private static final int PAGE_SIZE = 10;
+	private static final int PAGE_SIZE = 5;
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -29,7 +29,7 @@ public class CustomerController {
 		//Page<Customer> customers = CustomerRepository.findAll(PageRequest.of(pageNumber -1 , PAGE_SIZE, Sort.by("customer_code")));
 		Page<Customer> customers = customerRepository.findAll(PageRequest.of(pageNumber -1 , PAGE_SIZE, Sort.by("customerCode")));
 		
-		int current = customers.getNumber() + 1; 
+		int current = customers.getNumber() + 1; //현재 페이지 번호
 		int begin = 1;
 		int end = customers.getTotalPages();
 		
