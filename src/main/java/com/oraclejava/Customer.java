@@ -8,15 +8,15 @@ import javax.persistence.*;
 public class Customer { //Customer 테이블
 	
 	@Id
-	private int customerCode;//customer_Code는 인식이 안되므로 customerCode로 바꿔야한다
-	private String customerName;
-	private String customerPass;
-	private Date customerBirth;
-	private String customerJob;
-	private String customerMail;
-	private String customerTel;
-	private String customerPost;
-	private String customerAdd;
+	private int customerCode; //customer_Code는 인식이 안되므로 customerCode로 바꿔야한다
+	private String customerName; //이름
+	private String customerPass; //비밀번호
+	private Date customerBirth; //생년월일
+	private String customerJob; //직업
+	private String customerMail; //이메일
+	private String customerTel; //전화번호
+	private String customerPost; //우편번호
+	private String customerAdd; //주소
 	
 	public String getCustomerPass() {
 		return customerPass;
