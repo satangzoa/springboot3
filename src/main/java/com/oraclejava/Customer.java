@@ -1,6 +1,9 @@
 package com.oraclejava;
 
 import java.util.Date;
+import javax.persistence.SequenceGenerator;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 
@@ -8,9 +11,12 @@ import javax.persistence.*;
 public class Customer { //Customer 테이블
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_Code_seq")
+	@SequenceGenerator(name = "customer_Code_seq", sequenceName = "customer_seq", allocationSize = 1)
 	private int customerCode; //customer_Code는 인식이 안되므로 customerCode로 바꿔야한다
 	private String customerName; //이름
 	private String customerPass; //비밀번호
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date customerBirth; //생년월일
 	private String customerJob; //직업
 	private String customerMail; //이메일

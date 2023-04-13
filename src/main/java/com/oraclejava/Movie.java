@@ -1,17 +1,22 @@
 package com.oraclejava;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 
 
 @Entity
 public class Movie { //movie테이블
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_id_seq")
+	@SequenceGenerator(name = "movie_id_seq", sequenceName = "movie_seq", allocationSize = 1)//오라클에서는 반드시 allocationSize = 1로 설정해야한다
 	private int movieId;
-	private String title;
-	private int price;
-	private String synopsis;
+	private String title; //제목
+	private int price; //가격
+	private String synopsis; //줄거리
 	
 	public int getMovieId() {
 		return movieId;

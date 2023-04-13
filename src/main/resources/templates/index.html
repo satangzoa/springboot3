@@ -25,7 +25,8 @@
 </style>
 </head>
 <body>
-	<p th:text="${msg}" ></p>
+	<p th:text="${msg}"></p>
+	<a th:href="@{/cgv/create}">영화추가</a><!-- 컨텍스트 패스가 자동으로 붙는다  슬러쉬와 같다= / -->
 	<table class="table table-hover">
 		<thead>
 			<tr class="a">
@@ -50,7 +51,7 @@
   	<li th:each="i : ${#numbers.sequence(beginIndex, endIndex)}"
   		class="page-item"
 		th:classappend="${currentIndex == i} ? 'active' : ''">
-  		<a class="page-link" th:href="'/?page=' + ${i}" th:text="${i}"> 1</a>
+  		<a class="page-link" th:href="'/cgv/?page=' + ${i}" th:text="${i}"> 1</a>
   	</li>
   	</ul>
   </nav>
