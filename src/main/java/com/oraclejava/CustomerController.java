@@ -9,6 +9,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -27,8 +28,11 @@ public class CustomerController {
 	
 	private static final int PAGE_SIZE = 10;
 	
-	@Autowired
+	@Autowired //레포지토리 자동으로 불러온다
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value = "/customers", method = RequestMethod.GET)
 	public ModelAndView customers(@RequestParam(required = false, value = "page") Integer pageNumber) {
@@ -63,12 +67,33 @@ public class CustomerController {
 	@RequestMapping(value = "/customers/create",method = RequestMethod.POST)
 	public String create(Customer customer, Model model) {
 		
+		String pass = customer.getCustomerPass();
+		
+		customer.setCustomerPass(passwordEncoder.encode(pass));
+		
 		customerRepository.save(customer);
 		
 		return "redirect:/customers";
 	}
-	
+
+//	@RequestMapping(value = "/customers/homelayout")
+//	public String test() {
+//		
+//		
+//		return "homelayout";
+//	}
+//	
+//	
+//	@RequestMapping(value = "/customers/home")
+//	public String test2() {
+//		
+//		
+//		return "home";
+//	}
 }
+	
+	
+	
 
 
 
