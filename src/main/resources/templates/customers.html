@@ -14,7 +14,7 @@ display: flex;
 </style>
 </head>
 <body>
-
+<!-- http://localhost:8090/customers -->
 	<h1 class="a">고객 정보 관리 목록</h1>
 	
 	<a th:href="@{/customers/create}" class="a">고객 추가</a>
@@ -33,8 +33,8 @@ display: flex;
 		</thead>
 		<tbody>
 		   <tr th:each="c: ${customerList}" >
-				<td th:text="${c.customerCode}"></td>
-				<td th:text="${c.customerName}"></td>
+			<td th:text="${c.customerCode}"></td>
+				<td><a th:href="@{'/customers/update/' + ${c.customerCode}}" th:text="${c.customerName}"></a></td>
 				<td th:text="${c.customerBirth}"></td>
 				<td th:text="${c.customerJob}"></td>
 				<td th:text="${c.customerMail}"></td>

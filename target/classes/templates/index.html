@@ -38,8 +38,8 @@
 		<tbody  class="a">
 			<tr th:each="m: ${movieList}"  class="a">
 				<td th:text="${m.movieId}"  class="a">1</td>
-				<td th:text="${m.title}" class="a">스파이더맨</td>
-				<td th:text="${m.price}" class="a">7500원</td>
+				<td  class="a"><a th:href="@{'/cgv/update/' + ${m.movieId}}" th:text="${m.title}">스파이더맨</a></td>
+				<td th:text="${m.price}" class="a">7,500원</td>
 			</tr>
 	
 		</tbody>	

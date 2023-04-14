@@ -76,20 +76,51 @@ public class CustomerController {
 		return "redirect:/customers";
 	}
 
-//	@RequestMapping(value = "/customers/homelayout")
-//	public String test() {
-//		
-//		
-//		return "homelayout";
-//	}
-//	
-//	
-//	@RequestMapping(value = "/customers/home")
-//	public String test2() {
-//		
-//		
-//		return "home";
-//	}
+
+	@RequestMapping(value = "customers/update/{customerCode}", method = RequestMethod.GET)
+	public String update(@PathVariable Integer customerCode, Model model) {
+		Customer customer = customerRepository.findById(customerCode).get();
+		model.addAttribute("customer", customer);
+		return "customerUpdate";
+	}
+	
+	
+	@RequestMapping(params = "update",value = "customers/update/{customerCode}", method = RequestMethod.POST)
+	public String update(Customer customer, Model model) {
+		
+		Customer customers = customerRepository.findById(customer.getCustomerCode()).get();
+		customers.setCustomerName(customer.getCustomerName());
+
+//		String pass = customer.getCustomerPass();
+//		customer.setCustomerPass(passwordEncoder.encode(pass));와
+//		customers.setCustomerPass(customer.getCustomerPass()); 는 같다. 
+		
+		
+		String pass = customer.getCustomerPass();
+		customer.setCustomerPass(passwordEncoder.encode(pass));
+//		customers.setCustomerPass(customer.getCustomerPass());
+		customers.setCustomerBirth(customer.getCustomerBirth());
+		customers.setCustomerJob(customer.getCustomerJob());
+		customers.setCustomerMail(customer.getCustomerMail());
+		customers.setCustomerTel(customer.getCustomerTel());
+		customers.setCustomerPost(customer.getCustomerPost());
+		customers.setCustomerAdd(customer.getCustomerAdd());
+		
+		customerRepository.save(customers);
+		
+		return "redirect:/customers/";
+	}
+	
+	@RequestMapping(params="delete", value = "customers/update/{customerCode}", method = RequestMethod.POST)
+	public String delete(@PathVariable Integer customerCode, Model model) {
+		Customer customers = customerRepository.findById(customerCode).get();
+		customerRepository.delete(customers);
+		
+		
+		return "redirect:/customers/";
+	}
+	
+	
 }
 	
 	

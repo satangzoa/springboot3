@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>영화 추가 등록</title>
+<style>
+ body { 
+
+ position: absolute; 
+
+ 	  top: 15%; 
+
+ 	  left: 35%; 
+
+ 	  margin: -50px 0 0 -50px; 
+
+ } 
+
+</style>
+
+</head>
+<body>
+	<h1>영화 수정</h1>
+	<form method="post" action="" th:object="${movie}">
+		<input type="hidden" name="movieId" th:field="*{movieId}"> <!-- *과 object는 같이 쓰인다 -->
+		<label for="title">제목:</label>
+		<input type="text" name="title" id="title" th:field="*{title}"><br>
+		<label for="price">가격:</label>
+		<input type="text" name="price" id="price" th:field="*{price}"><br>
+		<label for="synopsis">줄거리:</label>
+		<textarea name="synopsis" id="synopsis" rows="6" cols="50" th:field="*{synopsis}"></textarea><br>
+		<input type="submit" value="수정" name="upate">
+		<input type="reset" value="취소" >
+		<input type="submit" value="삭제" name="delete">
+		<input type="button" value="목록" onClick="history.go(-1)"  class="btn btn-primary">
+	</form>
+</body>
+</html>
+
+
+
+
+
+

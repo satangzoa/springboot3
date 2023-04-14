@@ -61,9 +61,41 @@ public class HelloController {
 		movieRepository.save(movie);
 		
 		
+		return "redirect:/cgv/";
+	}
+	
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)//{id}패스베리어블이다 id는 아무단어나 대체될 수 있다.
+	public String update(@PathVariable Integer id, Model model) {
+		Movie movie = movieRepository.findById(id).get();
+		model.addAttribute("movie", movie);
+		return "movieUpdate";
+	}
+	
+	//수정
+	@RequestMapping(params ="update", value = "/update/{movieId}", method = RequestMethod.POST)//Movie.java의 movieId를 가리킨다
+	public String update(Movie movie, Model model) {
+		// smovie: 찾은 영화(searched movie)
+		Movie smovie = movieRepository.findById(movie.getMovieId()).get();
+		smovie.setTitle(movie.getTitle());
+		smovie.setPrice(movie.getPrice());
+		smovie.setSynopsis(movie.getSynopsis());
+		movieRepository.save(smovie);
+		//jpa에서는 movieId가 업데이트 안된다.
+		return "redirect:/cgv/";
+	}
+	
+	//삭제
+	@RequestMapping(params ="delete", value = "/update/{movieId}", method = RequestMethod.POST)
+	public String delete(@PathVariable Integer movieId, Model model) {
+		Movie smovie = movieRepository.findById(movieId).get();
+		movieRepository.delete(smovie);
 		
 		return "redirect:/cgv/";
 	}
+	
+	
+	
+	
 }
 
 

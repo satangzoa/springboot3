@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>고객 추가 등록</title>
+<style>
+ body { 
+
+ position: absolute; 
+
+ 	  top: 15%; 
+
+ 	  left: 35%; 
+
+ 	  margin: -50px 0 0 -50px; 
+
+ } 
+
+
+</style>
+
+</head>
+<body>
+	<h1>고객 수정</h1>
+	<form method="post" action="" th:object="${customer}">
+		<input type="hidden" name="customerCode" th:field="*{customerCode}"> 
+		<label for="customerName">이름: </label>
+		<input type="text" name="customerName" id="customerName" th:field="*{customerName}"><br>
+		
+		<label for="customerPass">비밀번호:</label>
+		<input type="text" name="customerPass" id="customerPass" th:field="*{customerPass}"><br>
+		
+		<label for="customerBirth">생년월일:</label>
+		<input type="text" name="customerBirth" id="customerBirth" th:field="*{customerBirth}"><br>
+		
+		<label for="customerJob">직업:</label>
+		<input type="text" name="customerJob" id="customerJob" th:field="*{customerJob}"><br>
+		
+		<label for="customerMail">이메일:</label>
+		<input type="text" name="customerMail" id="customerMail" th:field="*{customerMail}"><br>
+		
+		<label for="customerTel">전화번호:</label>
+		<input type="text" name="customerTel" id="customerTel" th:field="*{customerTel}"><br>
+		
+		<label for="customerPost">우편번호:</label>
+		<input type="text" name="customerPost" id="customerPost" th:field="*{customerPost}"><br>
+		
+		<label for="customerAdd">주소:</label>
+		<textarea name="customerAdd" id="customerAdd" rows="6" cols="50" th:field="*{customerAdd}"></textarea><br>
+		
+		
+		<input type="submit" value="수정" name="update">
+		<input type="submit" value="삭제" name="delete">
+		<input type="reset" value="취소" >
+		<input type="button" value="목록" onClick="history.go(-1)"  class="btn btn-primary">
+	</form>
+</body>
+</html>
