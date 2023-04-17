@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 
 @Controller
+@RequestMapping(value = "/admin/customers") //주소자체가 권한이 된다
 public class CustomerController {
 
 	
@@ -34,12 +35,16 @@ public class CustomerController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	@RequestMapping(value = "/customers", method = RequestMethod.GET)
+	@RequestMapping(value = {"","/"}, method = RequestMethod.GET)
 	public ModelAndView customers(@RequestParam(required = false, value = "page") Integer pageNumber) {
 		pageNumber = (pageNumber == null) ?  1 : pageNumber; 
  		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("customers");
+//		mav.setViewName("customers");
+		mav.setViewName("homeLayout");
+		mav.addObject("contents", "adminHome :: admin_contents");
+		mav.addObject("admin_contents", "customers :: admin_contents");
+		
 		
 		//Page<Customer> customers = CustomerRepository.findAll(PageRequest.of(pageNumber -1 , PAGE_SIZE, Sort.by("customer_code")));
 		Page<Customer> customers = customerRepository.findAll(PageRequest.of(pageNumber -1 , PAGE_SIZE, Sort.by("customerCode")));
@@ -56,7 +61,7 @@ public class CustomerController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/customers/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create(Model model) {
 		
 		
@@ -64,20 +69,23 @@ public class CustomerController {
 	}
 	
 	
-	@RequestMapping(value = "/customers/create",method = RequestMethod.POST)
+	@RequestMapping(value = "/create",method = RequestMethod.POST)
 	public String create(Customer customer, Model model) {
 		
 		String pass = customer.getCustomerPass();
 		
 		customer.setCustomerPass(passwordEncoder.encode(pass));
 		
+		customer.setRole("ROLE_USER"); // 기본 권한 부여
+		
+		
 		customerRepository.save(customer);
 		
-		return "redirect:/customers";
+		return "redirect:/admin/customers";
 	}
 
 
-	@RequestMapping(value = "customers/update/{customerCode}", method = RequestMethod.GET)
+	@RequestMapping(value = "/update/{customerCode}", method = RequestMethod.GET)
 	public String update(@PathVariable Integer customerCode, Model model) {
 		Customer customer = customerRepository.findById(customerCode).get();
 		model.addAttribute("customer", customer);
@@ -85,7 +93,7 @@ public class CustomerController {
 	}
 	
 	
-	@RequestMapping(params = "update",value = "customers/update/{customerCode}", method = RequestMethod.POST)
+	@RequestMapping(params = "update",value = "/update/{customerCode}", method = RequestMethod.POST)
 	public String update(Customer customer, Model model) {
 		
 		Customer customers = customerRepository.findById(customer.getCustomerCode()).get();
@@ -94,6 +102,14 @@ public class CustomerController {
 //		String pass = customer.getCustomerPass();
 //		customer.setCustomerPass(passwordEncoder.encode(pass));와
 //		customers.setCustomerPass(customer.getCustomerPass()); 는 같다. 
+		
+		String oldPassword= customers.getCustomerPass();
+		String newPassword = customer.getCustomerPass();
+		
+		if (!newPassword.equals(oldPassword)) { // != 안됨 /사용하면 안됨
+			customer.setCustomerPass(passwordEncoder.encode(newPassword));
+			
+		}
 		
 		
 		String pass = customer.getCustomerPass();
@@ -108,16 +124,16 @@ public class CustomerController {
 		
 		customerRepository.save(customers);
 		
-		return "redirect:/customers/";
+		return "redirect:/admin/customers/";
 	}
 	
-	@RequestMapping(params="delete", value = "customers/update/{customerCode}", method = RequestMethod.POST)
+	@RequestMapping(params="delete", value = "/update/{customerCode}", method = RequestMethod.POST)
 	public String delete(@PathVariable Integer customerCode, Model model) {
 		Customer customers = customerRepository.findById(customerCode).get();
 		customerRepository.delete(customers);
 		
 		
-		return "redirect:/customers/";
+		return "redirect:/admin/customers/";
 	}
 	
 	

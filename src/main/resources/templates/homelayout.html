@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extra-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
@@ -8,7 +9,45 @@
 <link th:href="@{/css/home.css}" rel="stylesheet">
 </head>
 <body>
-<!-- 	<div>탑입니다.</div> -->
+<!-- 	<div> -->
+<!-- 	<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"> -->
+<!--       <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none"> -->
+<!--         <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg> -->
+<!--         좋은 하루 되셍 -->
+<!--       </a> -->
+
+	<div>
+		<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+          Spring Sample
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a th:href="@{/}" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a th:href="@{/cgv}" class="nav-link px-2">Movies</a></li>
+        <li><a th:href="@{/admin}" class="nav-link px-2">Admin</a></li>
+        
+      </ul>
+		
+	      <div class="col-md-3 text-end" sec:authorize="isAnonymous()">
+	        <a th:href="@{/login}">로그인</a> 
+	        <!-- <button type="button" class="btn btn-outline-primary me-2">Login</button> -->
+	        <button type="button" class="btn btn-primary">Sign-up</button>
+	      </div>
+      	
+      	<div sec:authorize="isAuthenticated()">
+			<p>사용자id: <span sec:authentication="name"></span> </p>
+			<p>ROLE: <span sec:authentication="principal.authorities"></span></p>
+			<!-- 로그아웃 처리 -->
+			<form method="post" th:action="@{/logout}">
+				<button type="submit">로그아웃</button>
+			</form>
+		</div>
+    </header>
+		</div>
+		
 	<nav id="navbar-example2" class="navbar bg-light px-3 mb-3">
 	<a class="navbar-brand" href="#">좋은 하루 되세요</a>
     <ul class="nav nav-pills">
@@ -18,11 +57,30 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </li>
+    </ul>
 	</nav>
+	
+	
+	
+	
+	
 	<div th:include="__${contents}__"></div><!-- dunder처리 언더바 두개씩 / 전처리-->
-	<div>바텀입니다... &copy; 2025 Ps All rights reserved. 맘대로 가져가셔도 됩니다.</div>
+<!-- 	<div>바텀입니다... &copy; 2025 Ps All rights reserved. 맘대로 가져가셔도 됩니다.</div> -->
 
+	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      </a>
+      <span class="mb-3 mb-md-0 text-muted"> &copy; 2025 Ps All rights reserved. 맘대로 가져가셔도 됩니다.</span>
+    </div>
 
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul>
+  </footer>
 
 
 

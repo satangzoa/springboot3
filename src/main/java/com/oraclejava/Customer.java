@@ -19,11 +19,24 @@ public class Customer { //Customer 테이블
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date customerBirth; //생년월일
 	private String customerJob; //직업
+	
+	@Column(unique = true)
 	private String customerMail; //이메일
 	private String customerTel; //전화번호
 	private String customerPost; //우편번호
 	private String customerAdd; //주소
 	
+	//권한
+	private String role;
+	
+	
+	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	public String getCustomerPass() {
 		return customerPass;
 	}

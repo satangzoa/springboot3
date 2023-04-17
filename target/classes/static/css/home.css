@@ -9,3 +9,31 @@ h1{
 	
 }
 
+#menu {
+	float: left;
+	width: 25%;
+	
+}
+
+#content {
+	float: right;
+	width: 75%;	
+}
+
+#content::after{
+	content:"";
+	display: block;
+	clear: both;
+}
+
+
+
+
+
+
+
+
+
+
+
+

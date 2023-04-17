@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+body {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+
+	<div th:fragment="admin_contents">
+ 		<h2>어드민입니다.</h2>
+ 			
+ 			<div style="padding-top:20px; padding-bottom:20px;">
+ 			<div id="menu">
+ 				<ul>
+ 					<li><a th:href="@{/admin/customers}">고객 관리</a></li>
+ 				</ul>
+ 			</div>
+ 			</div>
+ 			
+ 			
+ 		<div id="content"  th:include="__${admin_contents}__"></div>
+ 	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

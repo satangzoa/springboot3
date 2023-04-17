@@ -1,17 +1,26 @@
 package com.oraclejava.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.oraclejava.UserDetailServiceimpl;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private UserDetailServiceimpl userDetailService;
+	
 	
 	//암호화 모듈 Bean 정의
 	@Bean
@@ -30,9 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable() //csrf 무효화
 			.authorizeRequests()
 //				.antMatchers("/","/**").permitAll()
-				.antMatchers("/","/cgv/**").permitAll() //접근 허가
+				.antMatchers("/").permitAll() //접근 허가 익명사용
 				.antMatchers("/login").permitAll() //사용자에게 로그인창 접근권한 허가
 				.antMatchers("/css/**","/images/**").permitAll() //css images 허용하게한다
+				.antMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated(); // 기타 나머지는 직접 접근 금지
 		
 		//로그인 처리
@@ -48,17 +58,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and().httpBasic();
 		
 		
+		//로그아웃 처리
+		http
+			.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/");
+		
+			
+		
 	}
 	//configure는 디비에 있는 정보를 가져온다
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//		auth
+//			.inMemoryAuthentication()
+//			.withUser("oracle") //로그인 화면 뜨면 아이디로 입력한다
+//			.password(passwordEncoder().encode("java"))
+//			.roles("USER");
 		auth
-			.inMemoryAuthentication()
-			.withUser("oracle") //로그인 화면 뜨면 아이디로 입력한다
-			.password(passwordEncoder().encode("java"))
-			.roles("USER");
+			.userDetailsService(userDetailService)
+			.passwordEncoder(passwordEncoder());
 		
-	
+		
 	}
 	
 }

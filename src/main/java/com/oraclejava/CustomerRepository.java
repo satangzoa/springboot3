@@ -11,4 +11,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	//페이징
 	Page<Customer> findAll(Pageable pageable);
 	
+	Customer findByCustomerMail(String customerMail);
+	
 }
