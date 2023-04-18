@@ -14,8 +14,8 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("homeLayout");
 		mav.addObject("contents", "home :: home_contents");
-		
+//		contents 파일명 home :: home_contents프래그넌트명
 		return mav;
 	}
-	
+
 }

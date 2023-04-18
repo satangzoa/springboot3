@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,17 @@ public class HelloController {
 		pageNumber = (pageNumber == null) ?  1 : pageNumber; //삼항연상자
  		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("index");//index.html을 가리킨다
+		//mav.setViewName("index");//index.html을 가리킨다
 		mav.addObject("msg","안녕하시지요?😊😊");
 		//mav.addObject("movieList",movieRepository.findAll(Sort.by("title")));//제목을 가나다순으로 정렬한다.영어가 먼저 위에 있다.descending은 내림차순
 		//가격이 높은 순으로 정렬
 		//mav.addObject("movieList",movieRepository.findAll(Sort.by("price").descending().and(Sort.by("title")))); //가격은 높은순 제목은 가나다순
 		//mav.addObject("movieList",movieRepository.findAll(Sort.by("movieId")));
+		
+		mav.setViewName("homeLayout");
+		mav.addObject("contents","index :: home_contents" );
+		
+		
 		Page<Movie> movies = movieRepository.findAll(PageRequest.of(pageNumber -1 , PAGE_SIZE, Sort.by("movieId")));
 		
 		
@@ -47,7 +53,8 @@ public class HelloController {
 	}
 	
 	//영화 추가 화면
-	@RequestMapping(value = "/create", method = RequestMethod.GET)//링크로 들어가니까 get이 온다
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value = "/create",method = RequestMethod.GET)//링크로 들어가니까 get이 온다
 	public String create(Model model) {
 		
 		
@@ -55,6 +62,7 @@ public class HelloController {
 	}
 	
 	//영화 추가 화면
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String create(Movie movie, Model model) { //
 		
@@ -64,6 +72,8 @@ public class HelloController {
 		return "redirect:/cgv/";
 	}
 	
+	
+	
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)//{id}패스베리어블이다 id는 아무단어나 대체될 수 있다.
 	public String update(@PathVariable Integer id, Model model) {
 		Movie movie = movieRepository.findById(id).get();
@@ -71,7 +81,10 @@ public class HelloController {
 		return "movieUpdate";
 	}
 	
+	
+	
 	//수정
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(params ="update", value = "/update/{movieId}", method = RequestMethod.POST)//Movie.java의 movieId를 가리킨다
 	public String update(Movie movie, Model model) {
 		// smovie: 찾은 영화(searched movie)
@@ -82,9 +95,16 @@ public class HelloController {
 		movieRepository.save(smovie);
 		//jpa에서는 movieId가 업데이트 안된다.
 		return "redirect:/cgv/";
+		
 	}
+
+	
+	
+	
+	
 	
 	//삭제
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(params ="delete", value = "/update/{movieId}", method = RequestMethod.POST)
 	public String delete(@PathVariable Integer movieId, Model model) {
 		Movie smovie = movieRepository.findById(movieId).get();

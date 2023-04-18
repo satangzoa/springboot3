@@ -17,12 +17,16 @@ public class UserDetailServiceimpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Customer customer = customerRepository.findByCustomerMail(email);
+		Customer customer = 
+				customerRepository
+				.findByCustomerMail(email).orElseThrow(() -> 
+						new UsernameNotFoundException("사용자가 존재하지 않습니다."));
 		
-		UserDetails user =
+			UserDetails user =
+		
 				new User(email, customer.getCustomerPass(), AuthorityUtils.createAuthorityList(customer.getRole()));
+			return user;
 		
-		return user;
 		
 		
 	}

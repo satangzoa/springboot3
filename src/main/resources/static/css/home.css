@@ -20,7 +20,7 @@ h1{
 	width: 75%;	
 }
 
-#content::after{
+.container::after{
 	content:"";
 	display: block;
 	clear: both;

@@ -65,9 +65,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logoutUrl("/logout")
 			.logoutSuccessUrl("/");
 		
-			
-		
+		// Remember Me 설정
+//		http.rememberMe()
+//				.key("uniqueKeyAndSecret") // 다른 고유한 키 지정하면 좋음
+//				.rememberMeParameter("remember-me") // 체크박스의 name에 설정한 값
+//				.rememberMeCookieName("remember-me")
+//				.tokenValiditySeconds(86400); //86400초 
+//		
+		http.rememberMe()
+				.key("uniqueKeyAndSecret")
+				.rememberMeParameter("remember-me")
+				.rememberMeCookieName("remember-me")
+				.tokenValiditySeconds(86400);
 	}
+	
+	
+	
 	//configure는 디비에 있는 정보를 가져온다
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
